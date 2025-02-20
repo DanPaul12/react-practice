@@ -6,10 +6,11 @@ import FormComponent from './foorm.jsx'
 import Counter from './counter.jsx'
 import Toggle from './toggle.jsx'
 import DynamicList from './list.jsx'
+import ToggleList from './togglelist.jsx'
 import './index.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <DynamicList />
+    <ToggleList />
   </StrictMode>,
 )
