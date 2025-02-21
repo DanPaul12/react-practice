@@ -1,34 +1,34 @@
 import { useState } from "react";
 
-function ToggleList(){
+function Tabs() {
+    const tabs = ["Home", "About", "Contact"];
+    const [activeTab, setActiveTab] = useState("Home");
 
-    const [togglelist, setToggleList] = useState({
-        'item1': 'item1 details',
-        'item2': 'item2 details',
-        'item3': 'item3 details'
-    })
-
-    const [showDetails, setShowDetails] = useState({
-        'item1':false,
-        'item2':false,
-        'item3':false
-    })
-
-    function toggleDeets(key){
-        setShowDetails(prev => (
-            {...prev, [key]: !prev[key]}
-        ))
+    function handleTabClick(tab) {
+        setActiveTab(tab)
     }
 
-
-    return(
-        <ul>
-            {Object.keys(togglelist).map(key=>
-                <li key={key}>{key}<button onClick={() => toggleDeets(key)}>Show deets</button>
-                {showDetails[key] && <p>{togglelist[key]}</p>}</li>
-            )}
-        </ul>
-    )
+    return (
+        <div>
+            <div>
+                {tabs.map(tab => (
+                    <button
+                        key={tab}
+                        onClick={() => handleTabClick(tab)}
+                        style={{
+                            backgroundColor: activeTab === tab ? "lightblue" : "white",
+                        }}
+                    >
+                        {tab}
+                    </button>
+                ))}
+            </div>
+            <div>
+                {/* Display content based on activeTab */}
+                <p>Content for {activeTab}</p>
+            </div>
+        </div>
+    );
 }
 
-export default ToggleList
+export default Tabs;
