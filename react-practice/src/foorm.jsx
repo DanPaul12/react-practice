@@ -1,35 +1,25 @@
 import { useState } from "react";
 
 function FormComponent(){
-
-    const [formData, setFormData] = useState({
-        firstname: '',
-        lastname: ''
-
-    })
-
-    function onChange(e){
-        const {name, value} = e.target
-        setFormData({...formData, [name]:value})
-    }
-
-    function onSubmit(e){
-       e.preventDefault();
-       if (!formData.firstname || !formData.lastname) {
-        alert('Fill it out')
-       return}
-
-       alert(`${formData.firstname} ${formData.lastname} submitted!`)
-    }
-
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    
+function onSubmit(e){
+    e.preventDefault()
+    const message = 'Member submittedd'
+    alert(message)
+    setName('')
+    setEmail('')
+    setPassword('')
+}
 
     return(
         <form onSubmit={onSubmit}>
-            <input onChange={onChange} name='firstname' value={formData.firstname}></input><br/>
-            <input onChange={onChange}  name="lastname" value={formData.lastname}></input>
-            <p>First Name: {formData.firstname}</p><br/>
-            <p>Last Name: {formData.lastname}</p>
-            <button>Submit</button>
+            <><p>Name</p><input onChange={(e)=>setName(e.target.value)} value={name}></input><br/></>
+            <p>Email</p><input onChange={(e)=> setEmail(e.target.value)} value={email}></input><br/>
+            <p>Password</p><input onChange={(e)=>setPassword(e.target.value)} value={password}></input><br/>
+            <button type="submit" disabled={password.length < 6 || !email.includes('.','@') || name.length < 2}>Register</button>
         </form>
     )
 }

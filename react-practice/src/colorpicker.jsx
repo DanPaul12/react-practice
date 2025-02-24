@@ -1,52 +1,52 @@
+
 import { useState } from "react";
 
-function ProfileEditor({name, bio, onUpdate}){
+function TodoList({todoList, removeItem}){
+    const [isCompleted, setIsCompleted] = useState([])
 
-    const [newName, setNewName] = useState('')
-    const [newBio, setNewBio] = useState('')
-    const [editable, setEditable] = useState(false)
-
-    function onSubmit(e){
-        e.preventDefault()
-        onUpdate(newName, newBio)
-        setNewName('')
-        setNewBio('')
+    function addCompleted(index){
+        setIsCompleted([...isCompleted, index])
     }
 
-    function makeEditable(){
-        setEditable(prev => !prev)
+    function removeCompleted(index){
+        const updatedCompleted = isCompleted.filter(item => item !== index)
+        setIsCompleted(updatedCompleted)
+    }
+    
+    return(
+        <div>
+            <ul>
+                {todoList.map((item, index)=> isCompleted.includes(index) ? 
+                (<><li key={index} style={{textDecoration:"line-through"}} onClick={()=>removeCompleted(index)}>{item} </li><button onClick={()=> removeItem(index)}>Remove</button></>):
+                <><li key={index} onClick={()=>addCompleted(index)}>{item} </li><button onClick={()=> removeItem(index)}>Remove</button></>)}
+            </ul>
+        </div>
+    )
+}
+
+function App2(){
+    const [todoList, setTodolist] = useState(['Eat', 'Sleep', 'Drank'])
+    const [newTask, setNewTask] = useState('')
+
+    function updateList(newTask){
+        if (newTask.trim()!=='') {
+        setTodolist([...todoList, newTask])
+        setNewTask('')}
+    }
+
+    function removeItem(itemIndex){
+        const updatedList = todoList.filter((item, index)=> index !== itemIndex)
+        setTodolist(updatedList)
+        console.log(updatedList)
     }
 
     return(
         <div>
-            <p>{name}</p><br/>
-            <p>{bio}</p><br/>
-
-            <button onClick={makeEditable}>{editable ? 'Done Editing': 'Edit'}</button>
-
-            {editable && 
-            <form onSubmit={onSubmit}>
-                <input onChange={(e)=> setNewName(e.target.value)} value={newName}></input>
-                <input onChange={(e)=> setNewBio(e.target.value)} value={newBio}></input>
-                <button type="submit">Submit</button>
-            </form>}
+            <TodoList todoList={todoList} removeItem={removeItem}/>
+            <input onChange={(e)=>setNewTask(e.target.value)} value={newTask}></input><br/>
+            <button onClick={()=>updateList(newTask)}>Add Task</button>
         </div>
     )
-
 }
 
-function Profile(){
-    const [name, setName] = useState('Gollum')
-    const [bio, setBio] = useState('Underworld Dweller')
-
-    function onUpdate(updatedName, updatedBio){
-        setName(updatedName)
-        setBio(updatedBio)
-    }
-
-    return(
-        <ProfileEditor name= {name} bio = {bio} onUpdate={onUpdate}/>
-    )
-}
-
-export default Profile;
+export default App2;
