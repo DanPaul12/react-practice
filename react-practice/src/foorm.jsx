@@ -1,26 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function FormComponent(){
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    
-function onSubmit(e){
-    e.preventDefault()
-    const message = 'Member submittedd'
-    alert(message)
-    setName('')
-    setEmail('')
-    setPassword('')
-}
+   const [todoList, setTodoList] = useState([
+    {task: 'watever', priority: 'high'},
+    {task: 'ggarble', priority: 'medium'},
+    {task: 'smangg', priority: 'low'}
+   ])
+
+   const priorityMap = {
+    high : 3,
+    medium : 2,
+    low : 1
+   }
 
     return(
-        <form onSubmit={onSubmit}>
-            <><p>Name</p><input onChange={(e)=>setName(e.target.value)} value={name}></input><br/></>
-            <p>Email</p><input onChange={(e)=> setEmail(e.target.value)} value={email}></input><br/>
-            <p>Password</p><input onChange={(e)=>setPassword(e.target.value)} value={password}></input><br/>
-            <button type="submit" disabled={password.length < 6 || !email.includes('.','@') || name.length < 2}>Register</button>
-        </form>
+        <div>
+            {todoList.sort((a,b)=>priorityMap[a.priority]-priorityMap[b.priority]).map((task, index)=>
+            <li key={index}>Task:{task.task} Priority: {task.priority}</li>)}
+        </div>
     )
 }
 

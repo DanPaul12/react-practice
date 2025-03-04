@@ -1,50 +1,40 @@
 
 import { useState } from "react";
 
-function TodoList({todoList, removeItem}){
-    const [isCompleted, setIsCompleted] = useState([])
+function MovieChild({addMovie}){
+    const [newMovie, setNewMovie] = useState('')
 
-    function addCompleted(index){
-        setIsCompleted([...isCompleted, index])
+    function updateList(newMovie){
+        addMovie(newMovie)
+        setNewMovie('')
     }
 
-    function removeCompleted(index){
-        const updatedCompleted = isCompleted.filter(item => item !== index)
-        setIsCompleted(updatedCompleted)
-    }
-    
     return(
         <div>
-            <ul>
-                {todoList.map((item, index)=> isCompleted.includes(index) ? 
-                (<><li key={index} style={{textDecoration:"line-through"}} onClick={()=>removeCompleted(index)}>{item} </li><button onClick={()=> removeItem(index)}>Remove</button></>):
-                <><li key={index} onClick={()=>addCompleted(index)}>{item} </li><button onClick={()=> removeItem(index)}>Remove</button></>)}
-            </ul>
+            <input onChange={(e)=> setNewMovie(e.target.value)} value={newMovie}></input>
+            <button onClick={()=>updateList(newMovie)}>Submit</button>
         </div>
     )
 }
 
 function App2(){
-    const [todoList, setTodolist] = useState(['Eat', 'Sleep', 'Drank'])
-    const [newTask, setNewTask] = useState('')
+    const [movieList, setMovieList] = useState([
+        'Matrix',
+        'Inception',
+        '50 Shades'
+    ])
 
-    function updateList(newTask){
-        if (newTask.trim()!=='') {
-        setTodolist([...todoList, newTask])
-        setNewTask('')}
-    }
-
-    function removeItem(itemIndex){
-        const updatedList = todoList.filter((item, index)=> index !== itemIndex)
-        setTodolist(updatedList)
-        console.log(updatedList)
+    function addMovie(newMovie){
+        const updatedList = [...movieList, newMovie]
+        setMovieList(updatedList)
     }
 
     return(
         <div>
-            <TodoList todoList={todoList} removeItem={removeItem}/>
-            <input onChange={(e)=>setNewTask(e.target.value)} value={newTask}></input><br/>
-            <button onClick={()=>updateList(newTask)}>Add Task</button>
+            {movieList.map((movie, index)=> 
+                <li key={index}>{movie}</li>
+            )}
+            <MovieChild addMovie={addMovie}/>
         </div>
     )
 }
