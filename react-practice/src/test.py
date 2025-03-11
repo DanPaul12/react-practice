@@ -16,12 +16,9 @@ curl --request POST \
       "operator": "AND",
       "operands": [
         {
-          "filter_name": "created_at_greater_than",
-          "filter_value": "2024-02-02T00:00:00Z"
-        },
-        {
-          "filter_name": "created_at_less_than",
-          "filter_value": "2024-03-11T23:59:59Z"
+          "filter_name": "created_at_between",
+          "filter_value": {"greater_than":"2024-02-02T00:00:00Z", 
+                           "less_than":"2024-03-11T23:59:59Z"}
         },
         {
           "filter_name": "phone_verified",
